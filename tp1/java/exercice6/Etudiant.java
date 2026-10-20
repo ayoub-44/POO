@@ -1,0 +1,63 @@
+package exercice6;
+import java.util.ArrayList;
+import java.util.Objects;
+public class Etudiant {
+    private String cne;
+    private String nom;
+    private String prenom;
+    private ArrayList<Double> notes = new ArrayList<>();
+    double SEUIL_VALIDATION = 10.0;
+
+    public Etudiant(String c,String n,String p){
+        this.cne=c;
+        this.nom=n;
+        this.prenom=p;
+    }
+    public Etudiant(Etudiant autre){
+        this.cne=autre.cne;
+        this.nom=autre.nom;
+        this.prenom=autre.prenom;
+        this.notes=new ArrayList<>(autre.notes);
+    }
+    public void ajouterNote(Double note){
+        if (note>0 && note<=20){
+            this.notes.add(note);
+        }
+   
+        
+        else {
+            System.out.println( "La note doit être comprise entre 0 et 20");
+        }
+        
+    }
+    public int nombreNotes(){
+        return notes.size();
+    }
+    public double moyenne(){
+        double somme=0.0;
+        if (this.notes.isEmpty()){
+            return 0.0;
+        }
+        for (double note :this.notes){
+            somme+=note;
+        }
+        return somme/this.notes.size();
+    }
+    public boolean estAdmis(){
+        return this.moyenne() >= SEUIL_VALIDATION;
+        }
+    public void affichage(){
+        System.out.println("Etudiant "+this.cne+" : "+this.prenom+" "+this.nom);
+    }
+    @Override 
+    public boolean equals(Object o){
+        if (this==o) return true;
+        if (o==null || this.getClass()!=o.getClass()) return false;
+        Etudiant etudiant = (Etudiant) o;
+        return Objects.equals(this.cne,etudiant.cne);
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(cne);
+    }
+}
